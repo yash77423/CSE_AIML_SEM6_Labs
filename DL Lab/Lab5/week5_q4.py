@@ -58,26 +58,26 @@ class ReducedFiltersCNN(nn.Module):
 
 
 
-class SmallerKernelCNN(nn.Module):
-    def __init__(self):
-        super(SmallerKernelCNN, self).__init__()
-        self.net = nn.Sequential(
-            nn.Conv2d(1, 16, kernel_size=2),  # Smaller kernel and fewer filters
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2), stride=2),
-            nn.Conv2d(16, 32, kernel_size=2),  # Smaller kernel and fewer filters
-            nn.ReLU(),
-            nn.MaxPool2d((2, 2), stride=2)
-        )
-        self.classification_head = nn.Sequential(
-            nn.Linear(32 * 5 * 5, 10, bias=True),  # Reduced fully connected layer
-            nn.ReLU(),
-            nn.Linear(10, 10, bias=True)
-        )
-
-    def forward(self, x):
-        features = self.net(x)
-        return self.classification_head(features.view(x.size(0), -1))
+# class SmallerKernelCNN(nn.Module):
+#     def __init__(self):
+#         super(SmallerKernelCNN, self).__init__()
+#         self.net = nn.Sequential(
+#             nn.Conv2d(1, 16, kernel_size=2),  # Smaller kernel and fewer filters
+#             nn.ReLU(),
+#             nn.MaxPool2d((2, 2), stride=2),
+#             nn.Conv2d(16, 32, kernel_size=2),  # Smaller kernel and fewer filters
+#             nn.ReLU(),
+#             nn.MaxPool2d((2, 2), stride=2)
+#         )
+#         self.classification_head = nn.Sequential(
+#             nn.Linear(32 * 5 * 5, 10, bias=True),  # Reduced fully connected layer
+#             nn.ReLU(),
+#             nn.Linear(10, 10, bias=True)
+#         )
+#
+#     def forward(self, x):
+#         features = self.net(x)
+#         return self.classification_head(features.view(x.size(0), -1))
 
 
 # Load MNIST dataset
@@ -125,7 +125,7 @@ def train_and_evaluate(model, train_loader, test_loader, num_epochs=5):
 models = {
     "OriginalCNN": OriginalCNN(),
     "ReducedFiltersCNN": ReducedFiltersCNN(),
-    "SmallerKernelCNN": SmallerKernelCNN()
+    # "SmallerKernelCNN": SmallerKernelCNN()
 }
 
 results = {}
